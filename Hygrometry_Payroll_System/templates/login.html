@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Login | Hygrometry Payroll{% endblock %}
+{% block content %}
+<section class="login-card">
+  <h1>Time Tracking and Payroll</h1>
+  <p>Sign in with your employee or manager account.</p>
+  <form method="post" class="stack">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label>Email<input type="email" name="email" required autocomplete="username"></label>
+    <label>Password<input type="password" name="password" required autocomplete="current-password"></label>
+    <button type="submit">Log In</button>
+  </form>
+  <div class="demo">
+    <strong>Demo employee:</strong> employee@hygrometry.com / Employee123!<br>
+    <strong>Demo manager:</strong> manager@hygrometry.com / Manager123!
+  </div>
+</section>
+{% endblock %}

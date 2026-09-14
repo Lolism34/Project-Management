@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Employee Dashboard{% endblock %}
+{% block content %}
+<h1>Welcome, {{ session.name }}</h1>
+<p>Your saved time uses {{ session.timezone }}.</p>
+<div class="cards">
+  <article><span>Total entries</span><strong>{{ summary.entry_count or 0 }}</strong></article>
+  <article><span>Waiting for review</span><strong>{{ summary.waiting_count or 0 }}</strong></article>
+  <article><span>Approved</span><strong>{{ summary.approved_count or 0 }}</strong></article>
+</div>
+<div class="actions">
+  <a class="button" href="{{ url_for('employee.time_entries') }}">Enter Work Time</a>
+  <a class="button secondary" href="{{ url_for('employee.time_off') }}">Request Time Off</a>
+</div>
+<h2>Recent entries</h2>
+{% if entries %}
+<div class="table-wrap"><table>
+  <thead><tr><th>Start</th><th>End</th><th>Hours</th><th>Status</th></tr></thead>
+  <tbody>{% for entry in entries %}<tr>
+    <td>{{ entry.local_start }}</td><td>{{ entry.local_end }}</td>
+    <td>{{ entry.hours }}</td><td><span class="status {{ entry.status }}">{{ entry.status }}</span></td>
+  </tr>{% endfor %}</tbody>
+</table></div>
+{% else %}<p>No time entries yet.</p>{% endif %}
+{% endblock %}

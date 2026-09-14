@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Review Time Off{% endblock %}
+{% block content %}
+<h1>Review Time-Off Requests</h1>
+{% for item in requests %}
+<article class="review-card">
+  <div><h2>{{ item.name }}</h2><span class="status {{ item.status }}">{{ item.status }}</span></div>
+  <p>{{ item.leave_type }}: {{ item.start_date }} to {{ item.end_date }}, {{ item.hours }} hours.</p>
+  {% if item.employee_note %}<p>Employee note: {{ item.employee_note }}</p>{% endif %}
+  {% if item.status == 'pending' %}
+  <form method="post" class="decision-form">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <input type="text" name="manager_note" maxlength="250" placeholder="Manager note">
+    <button formaction="{{ url_for('manager.decide_time_off', request_id=item.id, decision='approved') }}">Approve</button>
+    <button class="danger" formaction="{{ url_for('manager.decide_time_off', request_id=item.id, decision='rejected') }}">Reject</button>
+  </form>
+  {% elif item.manager_note %}<p>Manager note: {{ item.manager_note }}</p>{% endif %}
+</article>
+{% else %}<p>No time-off requests found.</p>{% endfor %}
+{% endblock %}
