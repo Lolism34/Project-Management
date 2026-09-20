@@ -19,7 +19,7 @@ def dashboard():
           COUNT(*) AS entry_count,
           SUM(CASE WHEN status = 'approved' THEN 1 ELSE 0 END) AS approved_count,
           SUM(CASE WHEN status = 'accepted' THEN 1 ELSE 0 END) AS waiting_count
-        FROM time_entries WHERE user_id = ?
+        FROM time_entries WHERE user_id = ? 
         """,
         (user_id,),
     ).fetchone()
